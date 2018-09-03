@@ -58,11 +58,27 @@
         return;
     }
     
+    NSString *langauge = [self languageForString:speakContent];
+    NSLog(@"speakContent Langauge : %@", langauge);
+    
     AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:speakContent];
     utterance.rate = DEFAULT_RATE;
-    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:DEFAULT_LANGUAGE];
+    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:langauge];
     
     [self.mSpeechSyn speakUtterance:utterance];
+}
+
+#pragma mark -
+#pragma mark Function
+
+- (NSString *) languageForString:(NSString *)text
+{
+    if(text.length < 100) {
+        return (NSString *) CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, text.length)));
+    }
+    else {
+        return (NSString *) CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, 100)));
+    }
 }
 
 #pragma mark -

@@ -10,6 +10,7 @@
 #import "TTSUtil.h"
 
 @interface ViewController () 
+@property (weak, nonatomic) IBOutlet UITextField *tfSpeechContent;
 @end
 
 @implementation ViewController
@@ -17,6 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // default context
+    self.tfSpeechContent.text = @"Hello, TTS World.";
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -29,7 +33,12 @@
 }
 
 - (IBAction)btnAction_Speech:(id)sender {
-    [[TTSUtil sharedInstance] Exec_Speak:@"Hello, World."];
+    NSString *content = self.tfSpeechContent.text;
+    
+    
+    
+    
+    [[TTSUtil sharedInstance] Exec_Speak:content];
 }
 
 @end
