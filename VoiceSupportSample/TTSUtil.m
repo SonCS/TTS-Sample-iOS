@@ -73,12 +73,21 @@
 
 - (NSString *) languageForString:(NSString *)text
 {
+    NSString *ret = @"";
+    
     if(text.length < 100) {
-        return (NSString *) CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, text.length)));
+        ret = (NSString *) CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, text.length)));
     }
     else {
-        return (NSString *) CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, 100)));
+        ret = (NSString *) CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, 100)));
     }
+    
+    // 구분하지 못하는 경우 처리
+    if(ret == nil || [ret isEqualToString:@"(null)"] || [ret isEqualToString:@"null"]) {
+        ret = @"en-US";
+    }
+    
+    return ret;
 }
 
 #pragma mark -
