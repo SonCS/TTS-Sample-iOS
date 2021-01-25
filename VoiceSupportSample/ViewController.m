@@ -34,10 +34,6 @@
 
 - (IBAction)btnAction_Speech:(id)sender {
     NSString *content = self.tfSpeechContent.text;
-    
-    
-    
-    
     [[TTSUtil sharedInstance] Exec_Speak:content];
 }
 
